@@ -1,0 +1,7 @@
+django == 1.10.2
+django_filter == 0.15.3
+numpy == 1.12.0b1+mkl
+requests == 2.12.1
+djangorestframework == 3.5.1
+scipy == 0.18.1
+
