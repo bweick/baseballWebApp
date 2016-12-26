@@ -1,0 +1,13 @@
+<h1>{{ home }}</h1>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+{% comment %} action="{% url 'statview:stats' player.url %}" {% endcomment %}
+
+<form action="{% url 'statview:stats' players.url %}" method="get">
+{% for player in players %}
+    <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ player.url }}" />
+    <label for="choice{{ forloop.counter }}">{{ player.player_name }}</label><br />
+{% endfor %}
+<input type="submit" value="Submit" />
+</form>

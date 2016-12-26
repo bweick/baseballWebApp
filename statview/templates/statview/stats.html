@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+<head>
+  {% load static%}
+  {% load custom_filters%}
+  <!-- Theme CSS -->
+  <link rel="stylesheet" type="text/css" href="{% static 'statview/css/style-stats.css' %}" />
+
+</head>
+<body>
+  <div class="header">
+    {% if stats %}
+      <h1 name="head" id={{stats.url}}>{{stats.player_name}}</h1>
+    {% else%}
+      <h1>{{name.player_name}}</h1>
+    {%endif%}
+  </div>
+  <div id="chart-holder", class="dev">
+    {% if stats%}
+      <div id="chart-header" class="header">
+        <h2>{{stats.player_name}} Spray Chart</h2>
+      </div>
+      <div id="chart-components">
+        <div id="main">
+        </div>
+        <div id="sidebar">
+          <h4 class="header"> Select Variables</h4>
+            <div id="speed" class="inputs">
+              <label>Speed of Viz</label><br>
+              <input id="time" type="range" value="100" steps="4" min="50" max="200" onChange="showValue(this.value);">&nbsp;</input>
+              <br>
+              <br>
+              <span id="slideVal">1 Minute</span>
+            </div>
+            <div id="profile" class="inputs">
+              <label>Batted Ball Profile</label>
+              <select id="talent">
+                <option value="current">2016</option>
+                <option value="avg">Career Average</option>
+                <option value="wavg">Weighted Average</option>
+              </select>
+            </div>
+            <div id="stats" class="inputs">
+              <ul>
+                <label class="header">Statistic</label><br>
+                <li>
+                  <input type="radio" name="stat" value="0" checked>BA</input><br>
+                </li>
+                <li>
+                  <input type="radio" name="stat" value="1">OBP</input><br>
+                </li>
+                <li>
+                  <input type="radio" name="stat" value="2">BABIP</input>
+                </li>
+              </ul>
+            </div>
+            <button id="run">Start</button>
+        </div>
+        <div id="statplot">
+        </div>
+      </div>
+    {%endif%}
+  </div>
+  <div id="table", class="table">
+    {% if stats %}
+        <table id="player_data">
+          <thead>
+          {% for key, value in stats|dict_ord %}
+            <th>{{key}}</th>
+          {% endfor %}
+          </thead>
+          <tr>
+          {% for key, value in stats|dict_ord %}
+            <td>{{value}}</td>
+          {% endfor %}
+          </tr>
+        </table>
+    {% else %}
+        <p align="center">There are no stats available for {{name.player_name}}.</p>
+    {% endif %}
+  </div>
+  <div id="api">
+  </div>
+  <!-- jQuery -->
+  <script type="text/javascript" src="{% static 'statview/lib/jquery-1.11.1.min.js' %}"></script>
+
+  <!-- Plug-In JS -->
+  <script type="text/javascript" src="http://d3js.org/d3.v3.js", charset="utf-8"></script>
+  <script type="text/javascript" src="https://d3js.org/d3-queue.v3.min.js"></script>
+  <script type="text/javascript" src="http://spin.js.org/spin.js"></script>
+
+  <!-- Theme JS -->
+  <script type="text/javascript" src="{% static 'statview/js/bbviz_field.js' %}"></script>
+  <script type="text/javascript" src="{% static 'statview/js/bbviz_graph.js' %}"></script>
+  <script type="text/javascript" src="{% static 'statview/js/bbviz_core.js' %}"></script>
+  <script type="text/javascript" src="{% static 'statview/js/bbviz_main.js' %}"></script>
+  <script type = "text/javascript">
+    function showValue(num){
+        var displayTime = function(num) {
+            if (num < 100) {
+                var str = num*.6 + " Seconds";
+                return str;
+            } else if (num == 100) {
+                return "1 Minute";
+            } else if (num > 100){
+                var str = num/100 + " Minutes";
+                return str
+            };
+        };
+         var result = document.getElementById('slideVal').textContent=displayTime(num);
+    }
+    </script>
+</body>
+</html>

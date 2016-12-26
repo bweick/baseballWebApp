@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% load static %}
+
+  <link rel="stylesheet" type="text/css" href="{% static 'statview/css/style.css' %}" />
+</head>
+<body>
+  {% if team %}
+      <h1>Teams</h1>
+      <ul>
+      {% for q in team %}
+          <li><a href="{% url 'statview:roster' q.home_id %}">{{ q.home_id }}</a></li>
+      {% endfor %}
+      </ul>
+  {% else %}
+      <p>There are no teams.</p>
+  {% endif %}
+</body>
+</html>

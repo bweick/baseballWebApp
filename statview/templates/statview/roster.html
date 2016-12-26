@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% load static %}
+
+  <link rel="stylesheet" type="text/css" href="{% static 'statview/css/style.css' %}" />
+</head>
+<body>
+  {% if players %}
+      <h1>{{home}}</h1>
+      <h3> Position Players</h3>
+      <ul>
+        {% for p in players %}
+  	       {% if p.pos_pitch == 0 %}
+          	 <li><a href="{% url 'statview:stats' p.url %}">{{ p.player_name }}</a></li>
+  	       {% endif %}
+        {% endfor %}
+      </ul>
+      <h3> Pitchers</h3>
+      <ul>
+        {%for p in players%}
+            {%if p.pos_pitch == 1%}
+              <li> {{p.player_name}}</li>
+            {%endif%}
+        {%endfor%}
+  {% else %}
+      <p>There are no players.</p>
+  {% endif %}
+</body>
+</html>
