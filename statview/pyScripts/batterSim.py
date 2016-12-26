@@ -30,7 +30,7 @@ def make_dist(assump):
 
 def sim_season(url, profile):
     link = 'http://localhost:8000/api/?url=' + url
-    response = r.get(link, auth=('brian', 'cu5bmWBufF$'))
+    response = r.get(link, auth=('brian', 'baseball56'))
     response = response.json()
     if profile == 'current':
         for i in range(len(response)):
