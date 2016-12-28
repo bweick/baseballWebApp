@@ -113,18 +113,18 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-DATABASES['default'] = dj_database_url.config()
+#DATABASES['default'] = dj_database_url.config()
 
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+#SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-ALLOWED_HOSTS = ['*']
+#ALLOWED_HOSTS = ['*']
 
-DEBUG = False
+#DEBUG = False
 
-try:
-    from .local_settings import *
-except ImportError:
-    pass
+#try:
+#    from .local_settings import *
+#except ImportError:
+#    pass
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
