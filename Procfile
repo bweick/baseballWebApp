@@ -1,1 +1,1 @@
-web : guincorn baseballstatview.wsgi --log-file--
+web : gunicorn baseballstatview.wsgi --log-file--
