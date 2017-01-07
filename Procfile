@@ -1,1 +1,1 @@
-web: gunicorn baseballApp.wsgi
+web: gunicorn baseballApp.wsgi:application
