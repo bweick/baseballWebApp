@@ -124,10 +124,10 @@ ALLOWED_HOSTS = ['*']
 
 DEBUG = False
 
-#try:
-#    from .local_settings import *
-#except ImportError:
-#    pass
+try:
+    from .local_settings import *
+except ImportError:
+    pass
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
