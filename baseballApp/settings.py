@@ -23,7 +23,7 @@ DB_DIR = 'C:\\Users\\Brian\\Desktop\\mlb_data.db'
 SECRET_KEY = '5(pfc&)0@=5f1zuof*!8$oubtb8@0@e(5)ccjf68w_p*#=y^ht'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+#DEBUG = True
 
 ALLOWED_HOSTS = []
 
