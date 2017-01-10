@@ -110,7 +110,7 @@
         $.ajax({
             method:'GET',
             //url:'http://localhost:8000/statview/simulation/',
-            url:'http://baseballstatview.herokuapp.com/statview/simulation/',
+            url:'https://baseballstatview.herokuapp.com/statview/simulation/',
             data:{'url':batter, 'profile':profile},
             async:'asynchronous',
             dataType:'json',
