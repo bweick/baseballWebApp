@@ -31,9 +31,7 @@
                          "TEX":{"primary":"#003279", "secondary":"#CACDCD", "tertiary":"#BD1021"},
                          "TOR":{"primary":"#003DA5", "secondary":"#CACDCD", "tertiary":"#DA291C"},
                          "WSN":{"primary":"#BA122B", "secondary":"#CACDCD", "tertiary":"#14225A"}};
-        console.log(d3.selectAll("td")._groups);
-        console.log(d3.selectAll("td")._groups[0][1]);
-        var team = d3.selectAll("td")[0][1].innerText;
+        var team = d3.selectAll("td")._groups[0][1].innerText;
         return allColors[team]
     });
 
