@@ -54,7 +54,6 @@
         d3.select("#run").style("border-color", colors.tertiary);
         d3.selectAll("th").style("background", colors.primary);
         d3.select("#chart-header").style("color", colors.primary);
-        console.log(document.styleSheets);
         document.styleSheets[0].insertRule("input[type='radio']:checked:before { background:"+colors.primary+"}", 1);
         return callback(null);
     });

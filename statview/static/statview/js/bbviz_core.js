@@ -89,7 +89,7 @@
     bbviz.onStart = (function() {
         var profile = d3.select('select#talent').node().value;
         var batter = document.getElementsByName("head")[0].id;
-        console.log(profile, batter);
+
         //clear chart
         $(".line").remove();
         $(".areaDist").remove();
