@@ -14,7 +14,7 @@ def make_dist(assump):
     gb = 1 - air
     if assump['hr_rate'] + assump['bb_rate'] + assump['so_rate'] + assump['ip_rate'] > 1:
             assump['ip_rate'] = assump['ip_rate']-(assump['hr_rate'] + assump['bb_rate'] + assump['so_rate'] + assump['ip_rate']-1)
-            
+
     #apportion iffb away from fd and ld according to their ratio of occurence
     fbif = ((air-assump['ld_rate'])/air)*assump['iffb']*air
     ldif = (assump['ld_rate']/air)*assump['iffb']*air
@@ -23,13 +23,14 @@ def make_dist(assump):
     gbpa = gb*assump['ip_rate']
     ldpa = (assump['ld_rate']-ldif)*assump['ip_rate']
     inf = air*assump['iffb']*assump['ip_rate']
-    
+
     outcomes = [gbpa, inf, ldpa, fbpa, assump['hr_rate'], assump['so_rate'], assump['bb_rate']]
     outcomes.append(1-np.sum(outcomes))
     return outcomes
 
 def sim_season(url, profile):
-    link = 'http://localhost:8000/api/?url=' + url
+    #link = 'http://localhost:8000/api/?url=' + url
+    link = 'http://baseballstatview.herokuapp.com/api/?url=' + url
     response = r.get(link, auth=('brian', 'baseball56'))
     response = response.json()
     if profile == 'current':
@@ -54,13 +55,13 @@ def sim_season(url, profile):
             out = pa_weights.dot(mat)
             assump = {'hr_rate':out[1]/100, 'ld_rate':out[0]/100, 'bb_rate':out[3]/100, 'so_rate':out[2]/100, 'gbfb':out[4], 'ip_rate':out[5]/100, 'iffb':out[6]/100}
         elif profile == 'wavg':
-            #yr_weights = 
+            #yr_weights =
             print(yr_weights)
             out = pa_weights.dot(mat)
             assump = {'hr_rate':out[1]/100, 'ld_rate':out[0]/100, 'bb_rate':out[3]/100, 'so_rate':out[2]/100, 'gbfb':out[4], 'ip_rate':out[5]/100, 'iffb':out[6]/100}
 
     outcomes = make_dist(assump)
-    
+
     master = {}
     running = []
     lst_obp, lst_ba, lst_babip = [], [], []
@@ -107,30 +108,30 @@ def sim_season(url, profile):
 
             hits += h
             ob = hits+walk
-            
+
             if ab == 0:
                 ba_i.append(0)
-            else:    
+            else:
                 ba_i.append(round(hits/ab, 3))
-                
+
             obp_i.append(round(ob/(i+1), 3))
-            
+
             if ip == 0:
                 babip_i.append(0)
-            else:    
+            else:
                 babip_i.append(round((hits-hr)/ip, 3))
-            
+
             if ip == 0:
                 xbabip_i.append(0)
-            else:    
+            else:
                 xbabip_i.append(round((gb*.24+ld*.73+fb*.18)/ip, 3))
-                
+
             if i == 599:
                 lst_obp.append(round(ob/(i+1), 3))
                 lst_ba.append(round(hits/ab, 3))
                 lst_babip.append(round((hits-hr)/ip, 3))
             pbp.append({'type':list(outcome).index(1), "hit":h})
-            
+
         if j < 50:
             running.append({})
             running[j].update({"obp":obp_i})
@@ -146,28 +147,28 @@ def sim_season(url, profile):
                 'mean_obp':round(np.mean(lst_obp), 3), 'std_obp':round(np.std(lst_obp),4), 'rng_obp':'['+str(min(lst_obp))+', '+str(max(lst_obp))+']',
                 'mean_babip':round(np.mean(lst_babip), 3), 'std_babip':round(np.std(lst_babip),4), 'rng_babip':'['+str(min(lst_babip))+', '+str(max(lst_babip))+']',
                 'min_obp':min(min_obp), 'min_ba':min(min_ba), 'min_babip':min(min_babip)}
-                
+
     for k in range(len(running)):
         running[k].update({"pct_ba":round(st.norm.cdf((running[k]['ba'][-1]-sum_stat['mean_ba'])/sum_stat['std_ba']),3)})
         running[k].update({"pct_obp":round(st.norm.cdf((running[k]['obp'][-1]-sum_stat['mean_obp'])/sum_stat['std_obp']),3)})
         running[k].update({"pct_babip":round(st.norm.cdf((running[k]['babip'][-1]-sum_stat['mean_babip'])/sum_stat['std_babip']),3)})
-    
+
     x0 = np.linspace(sum_stat['min_ba']-.05,sum_stat['min_ba']+.25, 300)
     x1 = np.linspace(sum_stat['min_obp']-.05,sum_stat['min_obp']+.25, 300)
     x2 = np.linspace(sum_stat['min_babip']-.05,sum_stat['min_babip']+.25, 300)
-        
+
     freq_ba = st.norm.pdf(x0, sum_stat['mean_ba'], sum_stat['std_ba'])
     freq_obp = st.norm.pdf(x1, sum_stat['mean_obp'], sum_stat['std_obp'])
     freq_babip = st.norm.pdf(x2, sum_stat['mean_babip'], sum_stat['std_babip'])
-    
+
     norm_ba, norm_obp, norm_babip = [], [], []
     for i in range(len(freq_ba)):
         norm_ba.append({'x':x0[i], 'y':freq_ba[i]})
         norm_obp.append({'x':x1[i], 'y':freq_obp[i]})
         norm_babip.append({'x':x2[i], 'y':freq_babip[i]})
-    
+
     freq = [{'freq_ba':norm_ba, 'freq_obp':norm_obp, 'freq_babip':norm_babip}]
-    
+
     master = {'lines':running, 'sum':sum_stat, 'freq':freq}
     return master
 
