@@ -73,7 +73,7 @@ def sim_season(url, profile):
         for i in range(600):
             outcome = np.random.multinomial(1, outcomes)
             if outcome[0] == 1:
-                h = np.random.binomial(1, .24)
+                h = np.random.binomial(1, .239)
                 ab += 1
                 ip += 1
                 gb +=1
@@ -82,12 +82,12 @@ def sim_season(url, profile):
                 ab += 1
                 ip += 1
             elif outcome[2] == 1:
-                h = np.random.binomial(1,.73)
+                h = np.random.binomial(1,.685)
                 ab += 1
                 ip += 1
                 ld += 1
             elif outcome[3] == 1:
-                h = np.random.binomial(1,.17)
+                h = np.random.binomial(1,.207)
                 ab += 1
                 ip += 1
                 fb += 1
